@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -25,7 +26,7 @@ import com.mytaxi.domainvalue.OnlineStatus;
 public class CarDO
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -48,10 +49,6 @@ public class CarDO
     @NotNull(message = "Rating can not be null!")
     private Integer rating;
 
-    private String engineType;
-
-    private String color;
-
     @OneToOne
     @JoinColumn(name = "manufacturer_id")
     private ManufacturerDO manufacturer;
@@ -59,8 +56,19 @@ public class CarDO
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
+    
+    
+    private String engineType;
+
+    private String color;
+
+    private boolean associated=false;
 
 
+    public CarDO(){
+        
+    }
+    
     public CarDO(
         @NotNull(message = "License Plate can not be null!") String licensePlate,
         @NotNull(message = "Car name can not be null!") String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
@@ -206,5 +214,17 @@ public class CarDO
     {
         this.licensePlate = licensePlate;
     }
+
+    public boolean isAssociated()
+    {
+        return associated;
+    }
+
+    public void setAssociated(boolean associated)
+    {
+        this.associated = associated;
+    }
+    
+    
 
 }

@@ -1,16 +1,21 @@
 package com.mytaxi.service.driver;
 
-import com.mytaxi.dataaccessobject.DriverRepository;
-import com.mytaxi.domainobject.DriverDO;
-import com.mytaxi.domainvalue.GeoCoordinate;
-import com.mytaxi.domainvalue.OnlineStatus;
-import com.mytaxi.exception.ConstraintsViolationException;
-import com.mytaxi.exception.EntityNotFoundException;
 import java.util.List;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mytaxi.dataaccessobject.CarRepository;
+import com.mytaxi.dataaccessobject.DriverRepository;
+import com.mytaxi.domainobject.CarDO;
+import com.mytaxi.domainobject.DriverDO;
+import com.mytaxi.domainvalue.GeoCoordinate;
+import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.EntityNotFoundException;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
@@ -65,6 +70,7 @@ public class DefaultDriverService implements DriverService
             LOG.warn("ConstraintsViolationException while creating a driver: {}", driverDO, e);
             throw new ConstraintsViolationException(e.getMessage());
         }
+
         return driver;
     }
 
@@ -98,6 +104,45 @@ public class DefaultDriverService implements DriverService
     {
         DriverDO driverDO = findDriverChecked(driverId);
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
+    }
+
+
+    /**
+     * Synchronized call to Set a car to a driver
+     * 
+     * @param driverId
+     * @param carId
+     * throws EntityNotFoundException
+     */
+    @Override
+    @Transactional
+    public synchronized void associateCar(long driverId, CarDO carDO) throws EntityNotFoundException, CarAlreadyInUseException
+    {
+        if (carDO.isAssociated())
+        {
+            LOG.warn("CarAlreadyInUseException - Car [ " + carDO.getLicensePlate() + " ] is already associated with a driver");
+            throw new CarAlreadyInUseException("CarAlreadyInUseException while associating the car with the driver");
+        }
+    
+        DriverDO driverDO = findDriverChecked(driverId);
+        driverDO.setCarDO(carDO);
+        carDO.setAssociated(true);
+        driverRepository.save(driverDO);
+    }
+
+    
+
+
+    @Override
+    public void dissociateCar(long driverId) throws EntityNotFoundException
+    {
+        DriverDO driverDO = findDriverChecked(driverId);
+        CarDO carDO=driverDO.getCarDO();
+        
+        carDO.setAssociated(false);
+        driverDO.setCarDO(null);
+        
+        driverRepository.save(driverDO);
     }
 
 

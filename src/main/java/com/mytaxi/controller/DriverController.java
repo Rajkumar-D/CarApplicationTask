@@ -1,14 +1,9 @@
 package com.mytaxi.controller;
 
-import com.mytaxi.controller.mapper.DriverMapper;
-import com.mytaxi.datatransferobject.DriverDTO;
-import com.mytaxi.domainobject.DriverDO;
-import com.mytaxi.domainvalue.OnlineStatus;
-import com.mytaxi.exception.ConstraintsViolationException;
-import com.mytaxi.exception.EntityNotFoundException;
-import com.mytaxi.service.driver.DriverService;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mytaxi.controller.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.DriverDTO;
+import com.mytaxi.domainobject.CarDO;
+import com.mytaxi.domainobject.DriverDO;
+import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.service.car.CarService;
+import com.mytaxi.service.driver.DriverService;
+
 /**
  * All operations with a driver will be routed by this controller.
  * <p/>
@@ -33,11 +39,14 @@ public class DriverController
 
     private final DriverService driverService;
 
+    private final CarService carService;
+
 
     @Autowired
-    public DriverController(final DriverService driverService)
+    public DriverController(final DriverService driverService, final CarService carService)
     {
         this.driverService = driverService;
+        this.carService = carService;
     }
 
 
@@ -70,6 +79,25 @@ public class DriverController
         throws ConstraintsViolationException, EntityNotFoundException
     {
         driverService.updateLocation(driverId, longitude, latitude);
+    }
+
+
+    @PutMapping("/{driverId}/car")
+    public void associateCar(
+        @Valid @PathVariable long driverId, @RequestParam long carId)
+        throws ConstraintsViolationException, EntityNotFoundException, CarAlreadyInUseException
+    {
+        CarDO carDO = carService.find(carId);
+        driverService.associateCar(driverId, carDO);
+    }
+    
+    @DeleteMapping("/{driverId}/car")
+    public void dissociateCar(
+        @Valid @PathVariable long driverId)
+        throws ConstraintsViolationException, EntityNotFoundException
+    {
+        
+        driverService.dissociateCar(driverId);
     }
 
 
