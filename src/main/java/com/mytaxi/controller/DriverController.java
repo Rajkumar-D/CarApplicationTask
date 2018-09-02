@@ -1,10 +1,14 @@
 package com.mytaxi.controller;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mytaxi.controller.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
@@ -25,6 +30,7 @@ import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.exception.SearchException;
 import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
 
@@ -90,13 +96,14 @@ public class DriverController
         CarDO carDO = carService.find(carId);
         driverService.associateCar(driverId, carDO);
     }
-    
+
+
     @DeleteMapping("/{driverId}/car")
     public void dissociateCar(
         @Valid @PathVariable long driverId)
         throws ConstraintsViolationException, EntityNotFoundException
     {
-        
+
         driverService.dissociateCar(driverId);
     }
 
@@ -107,4 +114,17 @@ public class DriverController
     {
         return DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
     }
+
+
+    @GetMapping("/search/car/")
+    public List<DriverDTO> findDriverByCar(@RequestParam(required = false) String driverName, @RequestParam(required = false) OnlineStatus driverOnlineStatus,
+        @RequestParam(required = false) String licensePlate, @RequestParam(required = false) String carName, @RequestParam(required = false) Integer seatCount,
+        @RequestParam(required = false) Integer carRating)
+        throws SearchException
+    {
+        DriverSearchDTO carSearchDTO = new DriverSearchDTO(driverName, driverOnlineStatus, licensePlate, carName, seatCount, carRating);
+
+        return DriverMapper.makeDriverDTOList(driverService.findByQuery(carSearchDTO));
+    }
+
 }

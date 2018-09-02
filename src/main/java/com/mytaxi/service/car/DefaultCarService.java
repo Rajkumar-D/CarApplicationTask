@@ -15,9 +15,13 @@ import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 
 /**
+ * 
  * Service to encapsulate the link between DAO and controller and to have business logic for some car specific things.
  * <p/>
+ * @author rajkumar
  */
+
+
 @Service
 public class DefaultCarService implements CarService
 {
@@ -47,8 +51,7 @@ public class DefaultCarService implements CarService
         return findCarChecked(carId);
 
     }
-
-
+    
     /**
      * Save the given car.
      *
@@ -57,7 +60,6 @@ public class DefaultCarService implements CarService
      * @throws ConstraintsViolationException if a car already exists with the given license_plate, ... .
      */
     @Override
-    //@Transactional
     public CarDO save(CarDO carDO) throws ConstraintsViolationException
     {
         CarDO car;
@@ -72,20 +74,28 @@ public class DefaultCarService implements CarService
         }
         return car;
     }
-
-
-   
-
+    
+    /**
+     * Delete car by Id
+     * 
+     * @param carId
+     * @throws EntityNotFoundException
+     */
     @Override
     @Transactional
     public void delete(Long carId) throws EntityNotFoundException
     {
         CarDO carDO = findCarChecked(carId);
         carRepository.delete(carDO);
-
     }
-
-
+    
+    /**
+     * Find car by onlineStatue
+     * 
+     * @param onlineStatus
+     * @return List<CarDO>
+     * @throws EntityNotFoundException
+     */
     @Override
     public List<CarDO> find(OnlineStatus onlineStatus)
     {
@@ -93,7 +103,24 @@ public class DefaultCarService implements CarService
         
     }
 
-
+    /**
+     * Find car by car name
+     * 
+     * @param name
+     * @return CarDO
+     * @throws EntityNotFoundException
+     */
+    public CarDO findByName(String name) throws EntityNotFoundException
+    {
+        return carRepository.findByName(name);
+    }
+    
+    
+    /**
+     * @param carId
+     * @return CarDO
+     * @throws EntityNotFoundException
+     */
     private CarDO findCarChecked(Long carId) throws EntityNotFoundException
     {
         return carRepository.findById(carId)

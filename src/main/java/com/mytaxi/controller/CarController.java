@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +27,7 @@ import com.mytaxi.service.car.CarService;
 /**
  * All operations with a car will be routed by this controller.
  * <p/>
+ * @author rajkumar
  */
 @RestController
 @RequestMapping("v1/cars")
@@ -54,11 +54,15 @@ public class CarController
     @ResponseStatus(HttpStatus.CREATED)
     public CarDTO createCar(@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException
     {
-        
         CarDO carDO = CarMapper.makeCarDO(carDTO);
         return CarMapper.makeCarDTO(carService.save(carDO));
-        
-        
+    }
+
+
+    @DeleteMapping("/{carId}")
+    public void deleteDriver(@Valid @PathVariable long carId) throws EntityNotFoundException
+    {
+        carService.delete(carId);
     }
 
 
@@ -68,10 +72,5 @@ public class CarController
     {
         return CarMapper.makeCarDTOList(carService.find(onlineStatus));
     }
-    
-    @DeleteMapping("/{carId}")
-    public void deleteDriver(@Valid @PathVariable long carId) throws EntityNotFoundException
-    {
-        carService.delete(carId);
-    }
+
 }

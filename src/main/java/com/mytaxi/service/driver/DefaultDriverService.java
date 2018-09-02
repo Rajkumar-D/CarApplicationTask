@@ -2,13 +2,18 @@ package com.mytaxi.service.driver;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.dataaccessobject.DriverRepository;
+import com.mytaxi.datatransferobject.CarDTO;
+import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
@@ -16,11 +21,13 @@ import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.exception.SearchException;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
  * <p/>
  */
+
 @Service
 public class DefaultDriverService implements DriverService
 {
@@ -28,6 +35,9 @@ public class DefaultDriverService implements DriverService
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
     private final DriverRepository driverRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     public DefaultDriverService(final DriverRepository driverRepository)
@@ -123,31 +133,29 @@ public class DefaultDriverService implements DriverService
             LOG.warn("CarAlreadyInUseException - Car [ " + carDO.getLicensePlate() + " ] is already associated with a driver");
             throw new CarAlreadyInUseException("CarAlreadyInUseException while associating the car with the driver");
         }
-    
+
         DriverDO driverDO = findDriverChecked(driverId);
         driverDO.setCarDO(carDO);
         carDO.setAssociated(true);
         driverRepository.save(driverDO);
     }
 
-    
-
 
     @Override
     public void dissociateCar(long driverId) throws EntityNotFoundException
     {
         DriverDO driverDO = findDriverChecked(driverId);
-        CarDO carDO=driverDO.getCarDO();
-        
+        CarDO carDO = driverDO.getCarDO();
+
         carDO.setAssociated(false);
         driverDO.setCarDO(null);
-        
+
         driverRepository.save(driverDO);
     }
 
 
     /**
-     * Find all drivers by online state.
+     * Find drivers by online state.
      *
      * @param onlineStatus
      */
@@ -158,6 +166,27 @@ public class DefaultDriverService implements DriverService
     }
 
 
+    /**
+     * Find driver by Query. This will search using custom repository method
+     * 
+     * @param DriverSearchDTO
+     * @return List<DriverDO
+     */
+    @Override
+    public List<DriverDO> findByQuery(DriverSearchDTO carSearchDTO) throws SearchException
+    {
+        return driverRepository.findByQuery(carSearchDTO);
+
+    }
+
+
+    /**
+     * Finds the DriverDO object.
+     * 
+     * @param driverId
+     * @return
+     * @throws EntityNotFoundException
+     */
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
         return driverRepository.findById(driverId)

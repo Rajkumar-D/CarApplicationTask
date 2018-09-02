@@ -2,12 +2,17 @@ package com.mytaxi.service.driver;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
+
+import com.mytaxi.datatransferobject.CarDTO;
+import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.exception.SearchException;
 
 public interface DriverService
 {
@@ -24,7 +29,8 @@ public interface DriverService
     
     void dissociateCar(long driverId) throws EntityNotFoundException;
     
-
-    List<DriverDO> find(OnlineStatus onlineStatus);
+    List<DriverDO> find(OnlineStatus onlineStatus) throws EntityNotFoundException;;
+    
+    List<DriverDO> findByQuery(DriverSearchDTO carSearchDTO) throws SearchException;
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -49,7 +50,7 @@ public class CarDO
     @NotNull(message = "Rating can not be null!")
     private Integer rating;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "manufacturer_id")
     private ManufacturerDO manufacturer;
 
@@ -80,6 +81,19 @@ public class CarDO
         this.seatCount = seatCount;
         this.rating = rating;
         this.manufacturer = manufacturer;
+        this.onlineStatus = OnlineStatus.ONLINE;
+    }
+    
+    public CarDO(
+        @NotNull(message = "License Plate can not be null!") String licensePlate,
+        @NotNull(message = "Car name can not be null!") String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
+        @NotNull(message = "Rating can not be null!") Integer rating)
+    {
+        super();
+        this.licensePlate=licensePlate;
+        this.name = name;
+        this.seatCount = seatCount;
+        this.rating = rating;
         this.onlineStatus = OnlineStatus.ONLINE;
     }
 

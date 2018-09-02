@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mytaxi.domainobject.ManufacturerDO;
 
+/**
+ * Entity Mapper class for car table.
+ * @author rajkumar
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarDTO
 {
