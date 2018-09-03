@@ -39,14 +39,14 @@ public class DriverRepositoryImpl implements DriverRepositoryCustom
     @Override
     public List<DriverDO> findByQuery(DriverSearchDTO driverSearchDTO) throws SearchException
     {
-        
+
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<DriverDO> query = cb.createQuery(DriverDO.class);
         Root<DriverDO> driver = query.from(DriverDO.class);
         Join<DriverDO, Object> car = driver.join("carDO");
-        
+
         List<Predicate> predicateList = new ArrayList<Predicate>();
-        
+
         if (driverSearchDTO.getUserName() != null)
             predicateList.add(cb.equal(driver.get("username"), driverSearchDTO.getUserName()));
         if (driverSearchDTO.getOnlineStatus() != null)
@@ -62,8 +62,7 @@ public class DriverRepositoryImpl implements DriverRepositoryCustom
         Predicate[] predicates = new Predicate[predicateList.size()];
         predicateList.toArray(predicates);
         query.where(predicates);
-            
-        
+
         return em.createQuery(query).getResultList();
     }
 

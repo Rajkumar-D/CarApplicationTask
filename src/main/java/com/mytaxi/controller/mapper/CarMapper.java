@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.mytaxi.datatransferobject.CarDTO;
-import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.CarDO;
 
 /**

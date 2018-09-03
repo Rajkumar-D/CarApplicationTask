@@ -41,10 +41,14 @@ values
  'aced0005737200226f72672e737072696e676672616d65776f726b2e646174612e67656f2e506f696e7431b9e90ef11a4006020002440001784400017978704023000000000000404bfa1cac083127', now(), now(), false, 'ONLINE',
 'driver08pw', 'driver08');
 
--- Create 1 Manufacturer
+-- Create Manufacturer
 
 insert into manufacturer(id,address,date_created,name) values(1,'Toyota India, Chennai',now(),'Toyata');
+insert into manufacturer(id,address,date_created,name) values(2,'Benz India, Delhi',now(),'Benz');
+insert into manufacturer(id,address,date_created,name) values(3,'Honda, Banglore',now(),'Honda');
+insert into manufacturer(id,address,date_created,name) values(4,'Hundai, Little Mount, Chennai, ',now(),'Hundai');
+insert into manufacturer(id,address,date_created,name) values(5,'Suzuki, 1111 St Thomas MT, Mumbai',now(),'Suzuki');
 
-insert into car (color, convertible, date_created, engine_type, license_plate, manufacturer_id, name, online_status, rating, seat_count, id,associated)  values ('white', 'false', now(), '', 'TN-43-2130', 1, 'Etios', 'ONLINE', 4, 4, 1,false);
-
-insert into car (color, convertible, date_created, engine_type, license_plate, manufacturer_id, name, online_status, rating, seat_count, id, associated)  values ('red', 'false', now(), '', 'TN-43-3152', 1, 'Liva', 'ONLINE', 4, 4, 2,false);
+-- Create Car
+insert into car (color, convertible, date_created, engine_type, license_plate, manufacturer_id, name, online_status, rating, seat_count, id,associated)  values ('white', 'false', now(), '', 'TN-43-2130', 1, 'Etios VX', 'ONLINE', 4, 4, 1,false);
+insert into car (color, convertible, date_created, engine_type, license_plate, manufacturer_id, name, online_status, rating, seat_count, id, associated)  values ('red', 'false', now(), '', 'TN-43-3152', 2, 'Mercedes-Benz S-Class', 'ONLINE', 4, 4, 2,false);

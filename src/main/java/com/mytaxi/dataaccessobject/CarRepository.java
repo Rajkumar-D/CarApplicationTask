@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.mytaxi.domainobject.CarDO;
-import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 
 /**
@@ -16,8 +15,10 @@ import com.mytaxi.domainvalue.OnlineStatus;
 public interface CarRepository extends CrudRepository<CarDO, Long>
 {
     List<CarDO> findByOnlineStatus(OnlineStatus onlineStatus);
-    
+
+
     CarDO findByName(String name);
-    
+
+
     List<CarDO> findBySeatCount(int seatCount);
 }

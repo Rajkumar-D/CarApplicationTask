@@ -25,8 +25,7 @@ import com.mytaxi.domainvalue.OnlineStatus;
 @Entity
 @Table(
     name = "driver",
-    uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"})
-)
+    uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"}))
 public class DriverDO
 {
 
@@ -64,9 +63,9 @@ public class DriverDO
     @JoinColumn(name = "car_id")
     private CarDO carDO;
 
+
     private DriverDO()
-    {
-    }
+    {}
 
 
     public DriverDO(String username, String password)
@@ -77,7 +76,7 @@ public class DriverDO
         this.coordinate = null;
         this.dateCoordinateUpdated = null;
         this.onlineStatus = OnlineStatus.OFFLINE;
-        this.carDO=null;
+        this.carDO = null;
     }
 
 
@@ -153,5 +152,4 @@ public class DriverDO
         this.carDO = carDO;
     }
 
-    
 }

@@ -1,18 +1,15 @@
 package com.mytaxi.domainobject;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -34,8 +31,6 @@ public class ManufacturerDO
     private String name;
 
     private String address;
-
-
 
 
     public ManufacturerDO()
@@ -86,5 +81,4 @@ public class ManufacturerDO
         this.address = address;
     }
 
-    
 }

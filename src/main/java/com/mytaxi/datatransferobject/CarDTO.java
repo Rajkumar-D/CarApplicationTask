@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mytaxi.domainobject.ManufacturerDO;
 
 /**
  * Entity Mapper class for car table.
@@ -27,16 +26,15 @@ public class CarDTO
 
     @NotNull(message = "Rating can not be null!")
     private Integer rating;
-    
+
     private String engineType;
-    
+
     private String color;
-    
+
     private Boolean convertible;
-    
+
     private Long manufacturerId;
-    
-    
+
 
     public CarDTO()
     {
@@ -46,7 +44,7 @@ public class CarDTO
 
     public CarDTO(
         Long id, @NotNull(message = "License Plate can not be null!") String licensePlate, String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
-        @NotNull(message = "Rating can not be null!") Integer rating, Long manufacturerId,String engineType,String color,Boolean convertible)
+        @NotNull(message = "Rating can not be null!") Integer rating, Long manufacturerId, String engineType, String color, Boolean convertible)
     {
         super();
         this.id = id;
@@ -54,10 +52,10 @@ public class CarDTO
         this.name = name;
         this.seatCount = seatCount;
         this.rating = rating;
-        this.manufacturerId=manufacturerId;
-        this.engineType=engineType;
-        this.color=color;
-        this.convertible=convertible;
+        this.manufacturerId = manufacturerId;
+        this.engineType = engineType;
+        this.color = color;
+        this.convertible = convertible;
     }
 
 
@@ -168,11 +166,4 @@ public class CarDTO
         this.convertible = convertible;
     }
 
-
-   
-    
-    
-    
-    
-    
 }

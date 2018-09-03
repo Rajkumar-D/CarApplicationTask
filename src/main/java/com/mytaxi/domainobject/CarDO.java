@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -57,35 +56,34 @@ public class CarDO
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
-    
-    
+
     private String engineType;
 
     private String color;
 
-    private Boolean associated=false;
+    private Boolean associated = false;
 
 
-    public CarDO(){
-        
+    public CarDO()
+    {
+
     }
-    
- 
-    
+
+
     public CarDO(
         @NotNull(message = "License Plate can not be null!") String licensePlate,
         @NotNull(message = "Car name can not be null!") String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
-        @NotNull(message = "Rating can not be null!") Integer rating,String engineType,String color,Boolean convertible)
+        @NotNull(message = "Rating can not be null!") Integer rating, String engineType, String color, Boolean convertible)
     {
         super();
-        this.licensePlate=licensePlate;
+        this.licensePlate = licensePlate;
         this.name = name;
         this.seatCount = seatCount;
         this.rating = rating;
         this.onlineStatus = OnlineStatus.ONLINE;
-        this.engineType=engineType;
-        this.color=color;
-        this.convertible=convertible;
+        this.engineType = engineType;
+        this.color = color;
+        this.convertible = convertible;
     }
 
 
@@ -220,16 +218,16 @@ public class CarDO
         this.licensePlate = licensePlate;
     }
 
+
     public boolean isAssociated()
     {
         return associated;
     }
 
+
     public void setAssociated(boolean associated)
     {
         this.associated = associated;
     }
-    
-    
 
 }

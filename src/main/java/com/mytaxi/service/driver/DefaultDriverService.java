@@ -7,12 +7,10 @@ import javax.persistence.PersistenceContext;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mytaxi.dataaccessobject.DriverRepository;
-import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverSearchDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
@@ -135,6 +133,11 @@ public class DefaultDriverService implements DriverService
         }
 
         DriverDO driverDO = findDriverChecked(driverId);
+        if (driverDO.getOnlineStatus().equals(OnlineStatus.OFFLINE))
+        {
+            LOG.warn("EntityNotFoundException - Driver [ " + driverDO.getUsername() + " ] cannot be associated with car as he is offline");
+            throw new EntityNotFoundException("EntityNotFoundException while associating the car with the driver. Driver is Offline");
+        }
         driverDO.setCarDO(carDO);
         carDO.setAssociated(true);
         driverRepository.save(driverDO);

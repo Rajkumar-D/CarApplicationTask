@@ -26,7 +26,6 @@ import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
-import com.mytaxi.service.car.DefaultCarService;
 
 /**
  * All operations with a car will be routed by this controller.

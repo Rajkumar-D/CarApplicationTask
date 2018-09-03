@@ -13,9 +13,9 @@ import com.mytaxi.domainvalue.OnlineStatus;
  * <p/>
  */
 @Repository
-public interface DriverRepository extends CrudRepository<DriverDO, Long>,DriverRepositoryCustom
+public interface DriverRepository extends CrudRepository<DriverDO, Long>, DriverRepositoryCustom
 {
 
     List<DriverDO> findByOnlineStatus(OnlineStatus onlineStatus);
-    
+
 }
