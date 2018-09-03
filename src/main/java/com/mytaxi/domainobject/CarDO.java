@@ -63,31 +63,19 @@ public class CarDO
 
     private String color;
 
-    private boolean associated=false;
+    private Boolean associated=false;
 
 
     public CarDO(){
         
     }
     
-    public CarDO(
-        @NotNull(message = "License Plate can not be null!") String licensePlate,
-        @NotNull(message = "Car name can not be null!") String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
-        @NotNull(message = "Rating can not be null!") Integer rating, ManufacturerDO manufacturer)
-    {
-        super();
-        this.licensePlate=licensePlate;
-        this.name = name;
-        this.seatCount = seatCount;
-        this.rating = rating;
-        this.manufacturer = manufacturer;
-        this.onlineStatus = OnlineStatus.ONLINE;
-    }
+ 
     
     public CarDO(
         @NotNull(message = "License Plate can not be null!") String licensePlate,
         @NotNull(message = "Car name can not be null!") String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
-        @NotNull(message = "Rating can not be null!") Integer rating)
+        @NotNull(message = "Rating can not be null!") Integer rating,String engineType,String color,Boolean convertible)
     {
         super();
         this.licensePlate=licensePlate;
@@ -95,6 +83,9 @@ public class CarDO
         this.seatCount = seatCount;
         this.rating = rating;
         this.onlineStatus = OnlineStatus.ONLINE;
+        this.engineType=engineType;
+        this.color=color;
+        this.convertible=convertible;
     }
 
 

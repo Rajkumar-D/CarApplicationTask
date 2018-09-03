@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mytaxi.dataaccessobject.CarRepository;
+import com.mytaxi.dataaccessobject.ManufacturerRepository;
 import com.mytaxi.domainobject.CarDO;
+import com.mytaxi.domainobject.ManufacturerDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
@@ -21,7 +23,6 @@ import com.mytaxi.exception.EntityNotFoundException;
  * @author rajkumar
  */
 
-
 @Service
 public class DefaultCarService implements CarService
 {
@@ -30,11 +31,14 @@ public class DefaultCarService implements CarService
 
     private final CarRepository carRepository;
 
+    private final ManufacturerRepository manRepository;
+
 
     @Autowired
-    public DefaultCarService(final CarRepository carRepository)
+    public DefaultCarService(final CarRepository carRepository, ManufacturerRepository manRepository)
     {
         this.carRepository = carRepository;
+        this.manRepository = manRepository;
     }
 
 
@@ -51,7 +55,8 @@ public class DefaultCarService implements CarService
         return findCarChecked(carId);
 
     }
-    
+
+
     /**
      * Save the given car.
      *
@@ -74,7 +79,8 @@ public class DefaultCarService implements CarService
         }
         return car;
     }
-    
+
+
     /**
      * Delete car by Id
      * 
@@ -88,7 +94,8 @@ public class DefaultCarService implements CarService
         CarDO carDO = findCarChecked(carId);
         carRepository.delete(carDO);
     }
-    
+
+
     /**
      * Find car by onlineStatue
      * 
@@ -100,8 +107,9 @@ public class DefaultCarService implements CarService
     public List<CarDO> find(OnlineStatus onlineStatus)
     {
         return carRepository.findByOnlineStatus(onlineStatus);
-        
+
     }
+
 
     /**
      * Find car by car name
@@ -114,8 +122,14 @@ public class DefaultCarService implements CarService
     {
         return carRepository.findByName(name);
     }
-    
-    
+
+
+    public ManufacturerDO findManufacturer(Long manId) throws EntityNotFoundException
+    {
+        return manRepository.findById(manId).orElseThrow(() -> new EntityNotFoundException("Could not find Manufacturer entity with id: " + manId));
+    }
+
+
     /**
      * @param carId
      * @return CarDO

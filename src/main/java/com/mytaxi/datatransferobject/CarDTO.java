@@ -28,8 +28,15 @@ public class CarDTO
     @NotNull(message = "Rating can not be null!")
     private Integer rating;
     
-    private ManufacturerDO manufacturer;
-
+    private String engineType;
+    
+    private String color;
+    
+    private Boolean convertible;
+    
+    private Long manufacturerId;
+    
+    
 
     public CarDTO()
     {
@@ -39,7 +46,7 @@ public class CarDTO
 
     public CarDTO(
         Long id, @NotNull(message = "License Plate can not be null!") String licensePlate, String name, @NotNull(message = "Seat count can not be null!") Integer seatCount,
-        @NotNull(message = "Rating can not be null!") Integer rating, ManufacturerDO manufacturer)
+        @NotNull(message = "Rating can not be null!") Integer rating, Long manufacturerId,String engineType,String color,Boolean convertible)
     {
         super();
         this.id = id;
@@ -47,7 +54,10 @@ public class CarDTO
         this.name = name;
         this.seatCount = seatCount;
         this.rating = rating;
-        this.manufacturer=manufacturer;
+        this.manufacturerId=manufacturerId;
+        this.engineType=engineType;
+        this.color=color;
+        this.convertible=convertible;
     }
 
 
@@ -111,16 +121,57 @@ public class CarDTO
     }
 
 
-    public ManufacturerDO getManufacturer()
+    public Long getManufacturerId()
     {
-        return manufacturer;
+        return manufacturerId;
     }
 
 
-    public void setManufacturer(ManufacturerDO manufacturer)
+    public void setManufacturerId(Long manufacturerId)
     {
-        this.manufacturer = manufacturer;
+        this.manufacturerId = manufacturerId;
     }
+
+
+    public String getEngineType()
+    {
+        return engineType;
+    }
+
+
+    public void setEngineType(String engineType)
+    {
+        this.engineType = engineType;
+    }
+
+
+    public String getColor()
+    {
+        return color;
+    }
+
+
+    public void setColor(String color)
+    {
+        this.color = color;
+    }
+
+
+    public Boolean getConvertible()
+    {
+        return convertible;
+    }
+
+
+    public void setConvertible(Boolean convertible)
+    {
+        this.convertible = convertible;
+    }
+
+
+   
+    
+    
     
     
     
