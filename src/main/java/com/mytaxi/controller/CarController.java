@@ -38,7 +38,7 @@ import com.mytaxi.service.car.DefaultCarService;
 public class CarController
 {
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(CarController.class);
-    
+
     private final CarService carService;
 
 
@@ -60,20 +60,21 @@ public class CarController
     @ResponseStatus(HttpStatus.CREATED)
     public CarDTO createCar(@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
-            ManufacturerDO manDO = carService.findManufacturer(carDTO.getManufacturerId());
-            CarDO carDO = CarMapper.makeCarDO(carDTO);
-            carDO.setManufacturer(manDO);
-            return CarMapper.makeCarDTO(carService.save(carDO));
+        ManufacturerDO manDO = carService.findManufacturer(carDTO.getManufacturerId());
+        CarDO carDO = CarMapper.makeCarDO(carDTO);
+        carDO.setManufacturer(manDO);
+        return CarMapper.makeCarDTO(carService.save(carDO));
     }
-    
+
+
     @PutMapping("/{carId}")
-    public CarDTO updateCar(@Valid @PathVariable long carId,@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
+    public CarDTO updateCar(@Valid @PathVariable long carId, @Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
-            ManufacturerDO manDO = carService.findManufacturer(carDTO.getManufacturerId());
-            CarDO carDO = CarMapper.makeCarDO(carDTO);
-            carDO.setManufacturer(manDO);
-            carDO.setId(carId);
-            return CarMapper.makeCarDTO(carService.save(carDO));
+        ManufacturerDO manDO = carService.findManufacturer(carDTO.getManufacturerId());
+        CarDO carDO = CarMapper.makeCarDO(carDTO);
+        carDO.setManufacturer(manDO);
+        carDO.setId(carId);
+        return CarMapper.makeCarDTO(carService.save(carDO));
     }
 
 
@@ -84,7 +85,7 @@ public class CarController
     }
 
 
-    @GetMapping
+    @GetMapping()
     public List<CarDTO> findCars(@RequestParam OnlineStatus onlineStatus)
         throws ConstraintsViolationException, EntityNotFoundException
     {

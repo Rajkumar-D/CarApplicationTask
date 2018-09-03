@@ -24,10 +24,10 @@ public class CarMapper
      */
     public static CarDO makeCarDO(CarDTO carDTO)
     {
-        return new CarDO(carDTO.getLicensePlate(),carDTO.getName(), carDTO.getSeatCount(), carDTO.getRating(),carDTO.getEngineType(),carDTO.getColor(),carDTO.getConvertible());
+        return new CarDO(carDTO.getLicensePlate(), carDTO.getName(), carDTO.getSeatCount(), carDTO.getRating(), carDTO.getEngineType(), carDTO.getColor(), carDTO.getConvertible());
     }
-    
-   
+
+
     /**
      * Create carDTO object using the given carDO.
      * 
@@ -36,10 +36,16 @@ public class CarMapper
      */
     public static CarDTO makeCarDTO(CarDO carDO)
     {
-        CarDTO carDTO = new CarDTO(carDO.getId(), carDO.getLicensePlate(), carDO.getName(), carDO.getSeatCount(), carDO.getRating(), carDO.getManufacturer().getId(),carDO.getEngineType(),carDO.getColor(),carDO.getConvertible());
+        CarDTO carDTO = null;
+        if (carDO != null)
+            carDTO =
+                new CarDTO(
+                    carDO.getId(), carDO.getLicensePlate(), carDO.getName(), carDO.getSeatCount(), carDO.getRating(), carDO.getManufacturer().getId(), carDO.getEngineType(),
+                    carDO.getColor(), carDO.getConvertible());
 
         return carDTO;
     }
+
 
     /**
      * Create catDTO list using the given list
